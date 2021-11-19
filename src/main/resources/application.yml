@@ -48,3 +48,5 @@ spring:
     add-properties: false
   lifecycle:
     timeout-per-shutdown-phase: 20s
+  liquibase:
+    change-log: classpath:/config/liquibase/changelog/db.changelog-master.xml
