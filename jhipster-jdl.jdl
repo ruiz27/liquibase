@@ -1,0 +1,38 @@
+
+
+entity ComplianceStatus{
+	id String
+    active Boolean
+    lastModifiedDate ZonedDateTime
+    createdDate ZonedDateTime
+}
+
+entity ComplianceStatusTranslate{
+	id String
+}
+
+relationship OneToMany {
+  ComplianceStatus{compliance} to ComplianceStatusTranslate{complianceStatus}
+}
+
+entity County{
+	numericCode String
+    alpha2Code String
+}
+
+entity CountryTranslate {
+	id UUID
+    ipAddress String
+    creationDate ZonedDateTime
+    updateDate ZonedDateTime
+}
+
+relationship OneToMany {
+  County{country} to CountryTranslate{countryTranslate}
+}
+
+
+
+
+
+

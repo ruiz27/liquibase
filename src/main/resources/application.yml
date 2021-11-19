@@ -1,0 +1,50 @@
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orbesr
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+    tomcat:
+      initial-size: 10 # The initial number of connections that are created when the pool is started
+      max-wait: 3000
+      max-active: 200 # The maximum number of active connections that can be allocated from this pool at the same time.
+      max-idle: 100 # The maximum number of idle connections that should be kept in the pool at all times. Idle connections are checked periodically (if enabled) and connections that have been idle for longer than minEvictableIdleTimeMillis will be released
+      min-idle: 30 # The minimum number of established connections that should be kept in the pool at all times.
+      validation-query: SELECT 1 # Query used to validate connections from the pool before returning them to the caller
+      validation-interval: 35000 # used to avoid excess validation, only run validation at most at this frequency ? time in milliseconds. If a connection is due for validation, but has been validated previously within this interval, it will not be validated again. The larger the value, the better the performance, but you increase the chance of a stale connection being presented
+      remove-abandoned: true # Flag to remove abandoned connections if they exceed the removeAbandonedTimeout. A connection is considered abandoned and eligible for removal if it has been in use longer than the removeAbandonedTimeout. This way db connections can be recovered from applications that fail to close a connection.
+      remove-abandoned-timeout: 60 # Timeout in seconds before an abandoned (in use) connection can be removed. The value should be set to the longest running query in application.
+      time-between-eviction-runs-millis: 35000 # The number of milliseconds to sleep between runs of the idle connection validation/cleaner thread. This value should not be set under 1 second. It dictates how often we check for idle, abandoned connections, and how often we validate idle connections.
+      min-evictable-idle-time-millis: 55000 # The minimum amount of time an object may sit idle in the pool before it is eligible for eviction.
+      test-while-idle: true
+      test-on-borrow: true # by setting this, the objects will be validated before being borrowed from the pool. If the object fails to validate, it will be dropped from the pool, and we will attempt to borrow another.
+  jpa:
+    database: postgresql
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: true
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    properties:
+      hibernate.default_schema: public
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.jdbc.fetch_size: 30
+      hibernate.jdbc.batch_size: 30
+    open-in-view: false
+  application:
+    name: orbe-api
+  boot:
+    admin: #username and password from spring boot admin server
+      url: http://localhost:8081
+      username: orbe
+      password: Orbe2017
+      client:
+        management-url: http://localhost:8080
+  devtools:
+    add-properties: false
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
